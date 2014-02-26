@@ -1,0 +1,28 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+  "Description" : "Create a basic Linux machine",
+  "Parameters" : {
+    "KeyName" : {
+      "Description" : "Name of an EC2 KeyPair",
+      "Type" : "String"
+    },
+    "ImageId" : {
+      "Description" : "The EC2 image id",
+      "Type" : "String"
+    },
+    "InstanceType" : {
+      "Description" : "The EC2 instance type",
+      "Type" : "String"
+    }
+  },
+  "Resources" : {
+    "NewServer" : {
+      "Type" : "AWS::EC2::Instance",
+      "Properties" : {
+        "InstanceType" : { "Ref" : "InstanceType" },
+        "KeyName" : { "Ref" : "KeyName" },
+        "ImageId" : { "Ref" : "ImageId" }
+      }
+    }
+  }
+}
