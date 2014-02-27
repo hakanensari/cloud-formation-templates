@@ -1,21 +1,30 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
+
   "Description" : "Create a basic Linux machine",
+
   "Parameters" : {
     "KeyName" : {
       "Description" : "Name of an EC2 KeyPair",
       "Type" : "String"
     },
+
     "ImageId" : {
       "Description" : "The EC2 image id",
       "Type" : "String"
     },
+
     "InstanceType" : {
       "Description" : "The EC2 instance type",
       "Type" : "String"
     }
   },
+
   "Resources" : {
+    "NewServerIPAddress" : {
+      "Type" : "AWS::EC2::EIP"
+    },
+
     "NewServer" : {
       "Type" : "AWS::EC2::Instance",
       "Properties" : {
@@ -23,6 +32,21 @@
         "KeyName" : { "Ref" : "KeyName" },
         "ImageId" : { "Ref" : "ImageId" }
       }
+    },
+
+    "IPAssoc" : {
+      "Type" : "AWS::EC2::EIPAssociation",
+      "Properties" : {
+        "InstanceId" : { "Ref" : "NewServer" },
+        "EIP" : { "Ref" : "NewServerIPAddress" }
+      }
+    }
+  },
+
+"Outputs" : {
+    "NewServerIPAddress" : {
+      "Description" : "IP Address of the new server",
+      "Value" : { "Ref" : "NewServerIPAddress" }
     }
   }
 }
